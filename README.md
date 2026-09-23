@@ -17,7 +17,9 @@ ActiveDiary is not therapy or a mental-health service.
 
 ## Download
 
-Coming soon under [Releases](../../releases). macOS 15 Sequoia or later, Apple Silicon or Intel. Signed and notarized.
+**[Download ActiveDiary for Mac](https://github.com/borisepshtein/ActiveDiary-app/releases/latest/download/ActiveDiary.dmg)** — always the newest version.
+
+Open the `.dmg` and drag ActiveDiary into Applications (choose Replace when updating; your diary is kept). macOS 15 Sequoia or later, Apple Silicon or Intel. Signed and notarized. Past versions: [Releases](../../releases).
 
 ## Feedback and bugs
 
