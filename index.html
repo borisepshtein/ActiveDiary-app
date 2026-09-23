@@ -138,7 +138,7 @@ p { margin: 0 0 1rem; }
 .turn .who { display: block; font-size: 0.8rem; color: var(--app-faint); }
 .turn.you { color: var(--app-faint); font-style: italic; }
 .window .faces { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
-.window .faces svg { width: 1.6rem; height: 1.6rem; }
+.window .faces svg { width: 1.6rem; height: 1.6rem; margin-right: 0.15rem; }
 .window .go { background: var(--app-teal); color: #FFF; border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.9rem; }
 
 /* voices: one question, four ways */
@@ -151,7 +151,7 @@ p { margin: 0 0 1rem; }
 }
 .voice-tabs button[aria-selected="true"] { border-color: var(--oxblood); color: var(--oxblood); }
 .voice-tabs button:hover { border-color: var(--ink-soft); }
-blockquote.voice { margin: 0; font-size: clamp(1.45rem, 2.7vw, 1.95rem); line-height: 1.35; min-height: 5.4em; }
+blockquote.voice { margin: 0; font-size: clamp(1.45rem, 2.7vw, 1.95rem); line-height: 1.35; min-height: 4.1em; }
 blockquote.voice p { margin: 0; }
 blockquote.voice p.enter { animation: settle 0.35s ease-out; }
 @keyframes settle { from { opacity: 0; transform: translateY(0.3rem); } }
@@ -202,7 +202,7 @@ footer p { margin: 0 0 0.4rem; }
   <main>
     <div class="hero">
       <p class="when" id="when">Tonight, 8:00 pm</p>
-      <h1 class="question" id="question" aria-label="What was the best part of today — and did you notice it while it was happening?">What was the best part of today — and did you notice it while it was happening?</h1>
+      <h1 class="question" id="question" aria-label="What was the best part of today&nbsp;— and did you notice it while it was happening?">What was the best part of today&nbsp;— and did you notice it while it was happening?</h1>
       <p class="reply-line" aria-hidden="true">Your answer…</p>
 
       <p class="hero-copy">ActiveDiary is a Mac diary that asks first. Once a day, at a time you pick, it opens a small window with one good question about your day, listens to the answer, asks a follow-up or two, and keeps the conversation as your diary.</p>
@@ -235,9 +235,11 @@ footer p { margin: 0 0 0.4rem; }
             </div>
             <div class="faces" aria-hidden="true">
               <span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8 16.5c2-2 6-2 8 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8 17c2-2.4 6-2.4 8 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8.5 16c2-1.1 5-1.1 7 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8.5 15.5h7"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--app-teal)"><circle cx="12" cy="12" r="10"/><path d="M8 14c2 2.2 6 2.2 8 0"/><circle cx="9" cy="10" r=".7" fill="currentColor"/><circle cx="15" cy="10" r=".7" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--app-teal)"><circle cx="12" cy="12" r="10"/><path d="M8.5 14.5c2 1.2 5 1.2 7 0"/><circle cx="9" cy="10" r=".7" fill="currentColor"/><circle cx="15" cy="10" r=".7" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8 14c2 2.4 6 2.4 8 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
               </span>
               <span class="go">Continue</span>
             </div>
