@@ -295,7 +295,7 @@ footer p { margin: 0 0 0.4rem; }
           </ul>
         </div>
       </div>
-      <p class="aside">No account, no sign-up, no sync to anyone's server. A good rule of thumb: don't tell it anything you wouldn't type into a Claude chat yourself. ActiveDiary is a journaling companion, not therapy or a mental health service.</p>
+      <p class="aside">No account, no sign-up. A good rule of thumb: don't tell it anything you wouldn't type into a Claude chat yourself. ActiveDiary is a journaling companion, not therapy or a mental health service.</p>
     </section>
 
     <section aria-labelledby="faq-h">
@@ -325,6 +325,9 @@ footer p { margin: 0 0 0.4rem; }
   var q = document.getElementById("question");
   var full = q.textContent;
   if (!reduced) {
+    // Reserve the finished question's real height (it wraps to ~6 lines
+    // on a phone) so the page below never moves while it types.
+    q.style.minHeight = q.offsetHeight + "px";
     var caret = '<span class="caret" aria-hidden="true"></span>';
     q.innerHTML = caret;
     var i = 0;
