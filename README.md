@@ -21,5 +21,7 @@ Coming soon under [Releases](../../releases). macOS 15 Sequoia or later, Apple S
 
 ## Feedback and bugs
 
-Use **Send Feedback** in the app's ActiveDiary menu — it opens a pre-filled
-[issue](../../issues) here. Issues are public: please don't paste diary content.
+Use **Send Feedback** in the app, or fill in
+[this short form](https://docs.google.com/forms/d/e/1FAIpQLScFeqber-4K5MMiJWV_u80sPRZgAJVe0VznoeyNUPpy4dftYQ/viewform)
+— no sign-in needed, and only the developer reads it. Developers are also
+welcome to open an [issue](../../issues) here (issues are public).
