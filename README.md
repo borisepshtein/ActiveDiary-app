@@ -1,5 +1,7 @@
 # ActiveDiary
 
+**Website: https://borisepshtein.github.io/ActiveDiary-app/**
+
 A Mac diary that interviews you. Every day, at a time you choose, ActiveDiary
 asks you a short, specific question about your day and follows up like a
 curious friend would — then keeps the conversation as your diary entry.
@@ -15,7 +17,7 @@ ActiveDiary is not therapy or a mental-health service.
 
 ## Download
 
-Coming soon under [Releases](../../releases). macOS 11 or later, Apple Silicon or Intel. Signed and notarized.
+Coming soon under [Releases](../../releases). macOS 15 Sequoia or later, Apple Silicon or Intel. Signed and notarized.
 
 ## Feedback and bugs
 

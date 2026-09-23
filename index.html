@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ActiveDiary — a Mac diary that asks you about your day</title>
+<meta name="description" content="ActiveDiary opens once a day at a time you choose, asks you a good question about your day, and keeps the conversation as your diary. Free for Mac.">
+<meta property="og:title" content="ActiveDiary — a Mac diary that asks you about your day">
+<meta property="og:description" content="Once a day, at a time you choose, it asks a good question and keeps the conversation as your diary.">
+<meta property="og:image" content="https://borisepshtein.github.io/ActiveDiary-app/assets/icon-256.png">
+<link rel="icon" href="assets/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page: #FFFFFF;
+  --ink: #221C1D;
+  --ink-soft: #6E6264;
+  --oxblood: #7A0F1E;
+  --oxblood-hover: #5E0B17;
+  --rule: #ECE3E4;
+  --wash: #FAF6F6;
+  /* the app's own window tokens, used only inside the mock window */
+  --app-paper: #F1ECE1;
+  --app-raised: #FBF8F1;
+  --app-ink: #23241F;
+  --app-faint: #8A8574;
+  --app-rule: #DCD4C2;
+  --app-teal: #1F6F63;
+  --serif: "Iowan Old Style", "Source Serif 4", "Palatino Linotype", Palatino, Georgia, serif;
+  --measure: 34rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #171314;
+    --ink: #EFE7E6;
+    --ink-soft: #A79A9B;
+    --oxblood: #E0808C;
+    --oxblood-hover: #EDA1AA;
+    --rule: #332A2B;
+    --wash: #1F1A1B;
+    --app-paper: #1C1B17;
+    --app-raised: #242219;
+    --app-ink: #ECE6D6;
+    --app-faint: #7A7568;
+    --app-rule: #37352C;
+    --app-teal: #4FA393;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-feature-settings: "onum" 1, "kern" 1;
+}
+a { color: var(--oxblood); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--oxblood-hover); }
+:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 2rem; }
+@media (max-width: 600px) { .wrap { padding: 0 1.25rem; } }
+
+/* ---- masthead ---- */
+.masthead { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: flex; align-items: center; gap: 0.7rem; color: var(--ink); text-decoration: none; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+.brand img { width: 2.2rem; height: 2.2rem; border-radius: 50%; }
+.masthead nav a { font-size: 1rem; }
+
+/* ---- hero: the page asks the visitor a question ---- */
+.hero { padding: 5rem 0 4.5rem; }
+.hero .when { color: var(--ink-soft); font-size: 1rem; margin: 0 0 1.25rem; font-variant-numeric: oldstyle-nums; }
+.question {
+  font-size: clamp(2.3rem, 5.6vw, 4.4rem);
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  margin: 0;
+  max-width: 17em;
+  min-height: 3.36em; /* reserve three lines so the typing doesn't shove the page */
+}
+.question .caret { display: inline-block; width: 0.06em; height: 0.95em; margin-left: 0.05em; background: var(--oxblood); vertical-align: -0.08em; animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.reply-line {
+  margin: 2.2rem 0 0;
+  max-width: 34rem;
+  border-bottom: 1px solid var(--ink-soft);
+  padding-bottom: 0.4rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.hero-copy { max-width: var(--measure); margin: 3.2rem 0 0; font-size: 1.25rem; line-height: 1.55; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem 1.5rem; margin-top: 2rem; }
+.button {
+  display: inline-block;
+  background: var(--oxblood);
+  color: #FFF;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+}
+.button:hover { background: var(--oxblood-hover); color: #FFF; }
+@media (prefers-color-scheme: dark) { .button, .button:hover { color: #1B1213; } }
+.button[aria-disabled="true"] { background: transparent; color: var(--oxblood); box-shadow: inset 0 0 0 1px var(--oxblood); cursor: default; }
+.fine { color: var(--ink-soft); font-size: 0.95rem; }
+
+/* ---- sections ---- */
+section { padding: 4.5rem 0; border-top: 1px solid var(--rule); }
+h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 400; line-height: 1.2; margin: 0 0 1.5rem; letter-spacing: -0.005em; }
+h3 { font-size: 1.15rem; font-weight: 600; margin: 0 0 0.3rem; }
+p { margin: 0 0 1rem; }
+.lede { max-width: var(--measure); color: var(--ink-soft); margin-bottom: 2.5rem; }
+
+/* how an evening goes: a real sequence, so it's numbered */
+.evening { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 3.5rem; align-items: start; }
+@media (max-width: 860px) { .evening { grid-template-columns: 1fr; gap: 2.5rem; } }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+.steps li { counter-increment: step; position: relative; padding: 0 0 1.5rem 2.6rem; max-width: var(--measure); }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 0.02em; color: var(--oxblood); font-size: 1.35rem; line-height: 1.2; font-variant-numeric: oldstyle-nums; }
+.steps li p { margin: 0; color: var(--ink-soft); }
+
+/* mock app window, in the app's own palette */
+.window { background: var(--app-paper); border-radius: 12px; box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -18px rgba(60, 20, 25, 0.35); overflow: hidden; color: var(--app-ink); font-size: 1rem; }
+.window .bar { display: flex; gap: 0.45rem; padding: 0.8rem 1rem; }
+.window .bar span { width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--app-rule); }
+.window .body { padding: 0.4rem 1.6rem 1.6rem; }
+.window .head { display: flex; justify-content: space-between; color: var(--app-faint); font-size: 0.85rem; margin-bottom: 0.9rem; }
+.turns { background: var(--app-raised); border: 1px solid var(--app-rule); border-radius: 10px; padding: 1.1rem 1.2rem; }
+.turn { margin: 0 0 0.9rem; }
+.turn:last-child { margin: 0; }
+.turn .who { display: block; font-size: 0.8rem; color: var(--app-faint); }
+.turn.you { color: var(--app-faint); font-style: italic; }
+.window .faces { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+.window .faces svg { width: 1.6rem; height: 1.6rem; }
+.window .go { background: var(--app-teal); color: #FFF; border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.9rem; }
+
+/* voices: one question, four ways */
+.voices { max-width: 46rem; }
+.voice-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.voice-tabs button {
+  font: inherit; font-size: 1rem; cursor: pointer;
+  background: none; color: var(--ink); border: 1px solid var(--rule);
+  border-radius: 999px; padding: 0.4rem 1rem;
+}
+.voice-tabs button[aria-selected="true"] { border-color: var(--oxblood); color: var(--oxblood); }
+.voice-tabs button:hover { border-color: var(--ink-soft); }
+blockquote.voice { margin: 0; font-size: clamp(1.45rem, 2.7vw, 1.95rem); line-height: 1.35; min-height: 5.4em; }
+blockquote.voice p { margin: 0; }
+blockquote.voice p.enter { animation: settle 0.35s ease-out; }
+@keyframes settle { from { opacity: 0; transform: translateY(0.3rem); } }
+.voice-note { color: var(--ink-soft); margin-top: 1rem; font-size: 1rem; }
+
+/* what it does: quiet two-column list, no cards */
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 3.5rem; }
+@media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
+.facts div p { color: var(--ink-soft); margin: 0; max-width: 30rem; }
+
+/* privacy: the honest ledger */
+.ledger { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+@media (max-width: 760px) { .ledger { grid-template-columns: 1fr; } }
+.ledger > div { padding: 1.6rem 1.8rem; }
+.ledger > div + div { border-left: 1px solid var(--rule); background: var(--wash); }
+@media (max-width: 760px) { .ledger > div + div { border-left: 0; border-top: 1px solid var(--rule); } }
+.ledger ul { margin: 0; padding-left: 1.1rem; }
+.ledger li { margin-bottom: 0.6rem; }
+.ledger li:last-child { margin-bottom: 0; }
+.aside { max-width: var(--measure); margin-top: 1.6rem; color: var(--ink-soft); }
+
+/* questions */
+.faq { max-width: 44rem; }
+.faq details { border-bottom: 1px solid var(--rule); padding: 1rem 0; }
+.faq summary { cursor: pointer; font-size: 1.15rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--oxblood); font-size: 1.3rem; line-height: 1.2; }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { margin: 0.7rem 0 0.2rem; color: var(--ink-soft); max-width: var(--measure); }
+
+footer { border-top: 1px solid var(--rule); padding: 2.5rem 0 3.5rem; color: var(--ink-soft); font-size: 0.95rem; }
+footer p { margin: 0 0 0.4rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .question .caret { animation: none; }
+  blockquote.voice p.enter { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <a class="brand" href="./"><img src="assets/icon-256.png" alt="">ActiveDiary</a>
+    <nav><a href="#download">Download</a></nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <p class="when" id="when">Tonight, 8:00 pm</p>
+      <h1 class="question" id="question" aria-label="What was the best part of today — and did you notice it while it was happening?">What was the best part of today — and did you notice it while it was happening?</h1>
+      <p class="reply-line" aria-hidden="true">Your answer…</p>
+
+      <p class="hero-copy">ActiveDiary is a Mac diary that asks first. Once a day, at a time you pick, it opens a small window with one good question about your day, listens to the answer, asks a follow-up or two, and keeps the conversation as your diary.</p>
+
+      <div class="cta" id="download">
+        <a class="button" id="download-button" href="https://github.com/borisepshtein/ActiveDiary-app/releases/latest">Download for Mac</a>
+        <span class="fine" id="download-note">Free during early access. For macOS 15 Sequoia or later, Apple Silicon or Intel, signed and notarized by Apple.</span>
+      </div>
+    </div>
+
+    <section aria-labelledby="evening-h">
+      <h2 id="evening-h">How an evening goes</h2>
+      <div class="evening">
+        <ol class="steps">
+          <li><h3>It opens on its own</h3><p>At the time you chose, even if you forgot. No app to remember to open, no blank page.</p></li>
+          <li><h3>It asks about your actual day</h3><p>Something specific: the plan you mentioned last week, the rainy weekend, the dentist appointment on your calendar.</p></li>
+          <li><h3>You answer, it follows up</h3><p>A question or two more, the way a curious friend would. Say you're done whenever you like.</p></li>
+          <li><h3>Rate the day, if you want</h3><p>Five faces, from rough to great. Over time, the pattern is worth seeing.</p></li>
+          <li><h3>It's saved, tagged, and remembered</h3><p>Your entry, the whole conversation, and anything worth remembering for next time.</p></li>
+        </ol>
+
+        <div class="window" role="img" aria-label="The ActiveDiary window showing a short conversation">
+          <div class="bar"><span></span><span></span><span></span></div>
+          <div class="body">
+            <div class="head"><span>ActiveDiary</span><span>Thursday evening</span></div>
+            <div class="turns">
+              <p class="turn"><span class="who">ActiveDiary</span>You said you'd finally call your sister this week. Did you get to it?</p>
+              <p class="turn you"><span class="who">You</span>Yes! We talked for an hour. She's moving back to Portland.</p>
+              <p class="turn"><span class="who">ActiveDiary</span>An hour — that sounds like more than logistics. How do you feel about having her closer?</p>
+            </div>
+            <div class="faces" aria-hidden="true">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8 16.5c2-2 6-2 8 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--app-faint)"><circle cx="12" cy="12" r="10"/><path d="M8.5 15.5h7"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--app-teal)"><circle cx="12" cy="12" r="10"/><path d="M8 14c2 2.2 6 2.2 8 0"/><circle cx="9" cy="10" r=".7" fill="currentColor"/><circle cx="15" cy="10" r=".7" fill="currentColor"/></svg>
+              </span>
+              <span class="go">Continue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="voices-h">
+      <div class="voices">
+        <h2 id="voices-h">Choose who's asking</h2>
+        <p class="lede">The same diary can ask in a different voice. Here's one question, four ways.</p>
+        <div class="voice-tabs" role="tablist" aria-label="Voices">
+          <button role="tab" aria-selected="true" aria-controls="voice" data-voice="0">Classic</button>
+          <button role="tab" aria-selected="false" aria-controls="voice" data-voice="1">Marcus Aurelius</button>
+          <button role="tab" aria-selected="false" aria-controls="voice" data-voice="2">Mark Twain</button>
+          <button role="tab" aria-selected="false" aria-controls="voice" data-voice="3">Sigmund Freud</button>
+        </div>
+        <blockquote class="voice" id="voice" role="tabpanel" aria-live="polite"><p>You said you'd finally call your sister this week. Did you get to it?</p></blockquote>
+        <p class="voice-note">Or type any name — a favorite author, a coach, your grandmother — and it will do its best.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="does-h">
+      <h2 id="does-h">What it keeps track of, so you don't have to</h2>
+      <div class="facts">
+        <div><h3>What matters to you</h3><p>It picks up the people, work, and interests you mention, and asks about them now and then — lightly, never as an interrogation.</p></div>
+        <div><h3>What's off-limits</h3><p>Tell it once that a topic is closed, and it never brings it up again.</p></div>
+        <div><h3>Your plans</h3><p>Mention a plan and it checks in later. With your permission, plans become reminders in Apple's Reminders app, and ticking one off there counts.</p></div>
+        <div><h3>The day around you</h3><p>Your local weather and your upcoming calendar events, so questions fit the day you're actually having. Say you're heading somewhere, and it knows the forecast there.</p></div>
+        <div><h3>The week, on Sundays</h3><p>A short summary of your week appears in the window on Sunday.</p></div>
+        <div><h3>The long view</h3><p>Once a day, on request, a deep read of your whole diary: how your mood moves, what lifts it, what keeps coming back.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="privacy-h">
+      <h2 id="privacy-h">Where your words go</h2>
+      <div class="ledger">
+        <div>
+          <h3>Stays on your Mac</h3>
+          <ul>
+            <li>Your diary entries and conversations</li>
+            <li>What it has learned about you, and the topics you've closed</li>
+            <li>Your mood ratings and analyses</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Leaves your Mac</h3>
+          <ul>
+            <li>Conversation text, sent to Anthropic's Claude to write each question, tag entries, and write summaries</li>
+            <li>Your city, and any place you mention traveling to, sent to Open-Meteo for weather — never diary text</li>
+            <li>Reminders you allow, synced by Apple through your own iCloud</li>
+          </ul>
+        </div>
+      </div>
+      <p class="aside">No account, no sign-up, no sync to anyone's server. A good rule of thumb: don't tell it anything you wouldn't type into a Claude chat yourself. ActiveDiary is a journaling companion, not therapy or a mental health service.</p>
+    </section>
+
+    <section aria-labelledby="faq-h">
+      <div class="faq">
+        <h2 id="faq-h">Questions</h2>
+        <details><summary>What does it cost?</summary><p>Nothing during early access, with no account and no API key of your own. If that changes, it will be said plainly here and in the app first.</p></details>
+        <details><summary>Which Macs does it run on?</summary><p>Any Mac running macOS 15 Sequoia or later, Apple Silicon or Intel. It's signed and notarized, so it opens like any app you download. It needs an internet connection while you write.</p></details>
+        <details><summary>Can I change when it asks, or skip a day?</summary><p>Pick any time in Settings. If you're busy, close the window; it will ask again tomorrow.</p></details>
+        <details><summary>How do I get my diary out?</summary><p>View it any time in your browser, or export the whole thing as a plain Markdown file from the ActiveDiary menu.</p></details>
+        <details><summary>How do I remove it?</summary><p>Settings has an Uninstall button. You choose whether your diary is deleted too or kept.</p></details>
+        <details><summary>Something broke, or I have an idea.</summary><p>Use Send Feedback in the app. It opens a pre-filled note on <a href="https://github.com/borisepshtein/ActiveDiary-app/issues">GitHub</a>. That page is public, so please leave diary content out.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made by Boris Epshtein in Bothell, Washington.</p>
+    <p><a href="https://github.com/borisepshtein/ActiveDiary-app">ActiveDiary on GitHub</a></p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // The one orchestrated moment: the page asks you its question.
+  var q = document.getElementById("question");
+  var full = q.textContent;
+  if (!reduced) {
+    var caret = '<span class="caret" aria-hidden="true"></span>';
+    q.innerHTML = caret;
+    var i = 0;
+    var tick = function () {
+      i += 1;
+      q.innerHTML = full.slice(0, i).replace(/&/g, "&amp;").replace(/</g, "&lt;") + caret;
+      if (i < full.length) setTimeout(tick, full.charAt(i - 1) === "—" ? 260 : 32);
+    };
+    setTimeout(tick, 450);
+  }
+
+  // Say "tonight" or "this morning" like the real thing would.
+  var h = new Date().getHours();
+  var when = document.getElementById("when");
+  if (h < 12) when.textContent = "This morning, 9:00 am";
+  else if (h < 17) when.textContent = "This afternoon, 4:00 pm";
+
+  // Voices.
+  var lines = [
+    "You said you'd finally call your sister this week. Did you get to it?",
+    "You meant to call your sister. What stood in the way — the task itself, or your opinion of it?",
+    "You swore you'd call your sister this week. I'd ask whether you did, but I've met procrastination; we go way back.",
+    "Ah, the call to your sister. Still unmade? Tell me — what do you expect she'll say?"
+  ];
+  var tabs = document.querySelectorAll(".voice-tabs button");
+  var panel = document.getElementById("voice");
+  var select = function (btn) {
+    tabs.forEach(function (t) { t.setAttribute("aria-selected", t === btn ? "true" : "false"); });
+    var p = document.createElement("p");
+    p.textContent = lines[+btn.getAttribute("data-voice")];
+    if (!reduced) p.className = "enter";
+    panel.replaceChildren(p);
+  };
+  tabs.forEach(function (t, idx) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var next = tabs[(idx + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus(); select(next);
+    });
+  });
+
+  // Download: link straight to the latest .dmg when a release exists.
+  var btn = document.getElementById("download-button");
+  var note = document.getElementById("download-note");
+  fetch("https://api.github.com/repos/borisepshtein/ActiveDiary-app/releases/latest")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rel) {
+      var dmg = rel && (rel.assets || []).filter(function (a) { return /\.dmg$/i.test(a.name); })[0];
+      if (dmg) {
+        btn.href = dmg.browser_download_url;
+        btn.textContent = "Download ActiveDiary " + String(rel.tag_name).replace(/^v/, "") + " for Mac";
+      } else {
+        btn.textContent = "Coming soon";
+        btn.setAttribute("aria-disabled", "true");
+        btn.removeAttribute("href");
+        note.textContent = "The first public download is almost ready. Free during early access, for macOS 15 Sequoia or later.";
+      }
+    })
+    .catch(function () { /* leave the plain link to the releases page */ });
+})();
+</script>
+</body>
+</html>
